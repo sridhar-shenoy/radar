@@ -6,74 +6,55 @@
     <title>Compliance ID Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Dark page background */
+        /* Background and text colors */
         body {
             position: relative;
             min-height: 100vh;
-            background-color: #1a1a1a; /* Dark grey background */
+            background-color: #FAEBD7; /* Pale yellow background */
             font-family: 'Arial', sans-serif;
-            color: white;
-        }
-
-        /* Compact header styling */
-        .container-fluid {
-            position: relative;
-            z-index: 1;
+            color: #000080; /* Navy blue text */
         }
 
         /* Search box area styling */
         .search-header {
             display: flex;
             align-items: center;
-            background-color: #333333; /* Darker grey for search area */
             padding: 15px;
-            border-radius: 10px;
-            color: white;
             margin-bottom: 30px;
-            max-width: 700px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Shadow for the search box */
+            max-width: 800px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* Adjusted input box to 40 characters */
+        /* Input and button styling */
         .form-control {
-            width: 400px;
             margin-right: 10px;
-            border-radius: 25px;
-            padding: 8px 15px;
-            border: none;
-            background-color: #2a2a2a; /* Darker input background */
-            color: white; /* White text for better contrast */
+            border-radius: 5px; /* Rounded edges */
         }
 
-        .form-control::placeholder {
-            color: #cccccc; /* Lighter placeholder text */
-        }
-
-        /* Search button */
         #searchBtn {
-            border-radius: 25px;
+            border-radius: 5px; /* Rounded edges */
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #28a745; /* Green button */
             color: white;
             border: none;
             font-size: 16px;
         }
 
         #searchBtn:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #218838; /* Darker green on hover */
         }
 
         /* Tab styling */
         .nav-tabs {
-            border: 2px solid #007bff; /* Matching border with buttons */
-            background-color: #2a2a2a; /* Dark background for tabs */
+            border: 1px solid purple; /* Purple border for tabs */
+            background-color: #F5F5F5; /* Light grey background for tabs */
             border-radius: 10px;
             overflow: hidden;
         }
 
         .nav-tabs .nav-link {
-            color: white;
-            background-color: #2a2a2a;
+            color: #000080; /* Navy blue text */
+            background-color: #F5F5F5; /* Light grey background for tabs */
             border-radius: 0;
             transition: background-color 0.3s ease;
         }
@@ -89,12 +70,12 @@
 
         /* Tab content styling */
         .tab-content {
-            background-color: #333333; /* Match search area */
-            border: 2px solid #007bff;
+            background-color: #F5F5F5; /* Light grey background */
+            border: 1px solid purple; /* Purple border */
             border-radius: 10px;
             padding: 15px;
             margin-top: 10px;
-            color: white; /* Ensure text is readable */
+            color: #000080; /* Navy blue text */
         }
 
         /* Table styling inside tabs */
@@ -105,31 +86,56 @@
         }
 
         .table th, .table td {
-            border: 1px solid #007bff;
-            padding: 10px;
+            border: 1px solid purple; /* Purple border for table cells */
+            padding: 5px; /* Reduced padding for more compact height */
             text-align: left;
-            color: white; /* White text in table */
+            font-size: 12px; /* Reduced font size for row content */
         }
 
         .table th {
-            background-color: #2a2a2a; /* Darker header */
+            background-color: #d3d3d3; /* Light grey background for header */
+            color: #000080; /* Navy blue text */
+        }
+
+        /* Color styles for logs */
+        .light-red {
+            background-color: rgba(255, 99, 71, 0.3); /* Light red (Tomato) color */
+        }
+
+        .light-green {
+            background-color: rgba(144, 238, 144, 0.3); /* Light green color */
         }
 
         /* Hover effect for collapsible rows */
         .collapse-row {
             cursor: pointer;
-            background-color: #444444; /* Slightly lighter row for distinction */
         }
 
         .collapse-row:hover {
-            background-color: #007bff;
-            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         /* Collapsed content inside rows */
         .collapse-row .log {
-            font-size: 14px;
+            font-size: 12px; /* Reduced font size for row content */
             word-wrap: break-word;
+        }
+
+        /* Specific widths for the columns */
+        .date-column {
+            width: 150px; /* Width to accommodate the date format */
+        }
+
+        .system-column {
+            width: 100px; /* Width to accommodate 'Blackbird' */
+        }
+
+        /* Filter input styling */
+        .filter-input {
+            margin-bottom: 10px;
+            border-radius: 5px; /* Rounded edges */
+            width: 100px; /* Fixed width for filter inputs */
+            display: inline-block;
         }
     </style>
 </head>
@@ -144,6 +150,120 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="./App.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchBtn = document.getElementById('searchBtn');
+        const complianceIdInput = document.getElementById('complianceId');
+        const resultsDiv = document.getElementById('results');
+
+        searchBtn.addEventListener('click', async () => {
+            const complianceId = complianceIdInput.value;
+            if (!complianceId) {
+                alert("Please enter a Compliance ID");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ complianceId }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                renderResults(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                resultsDiv.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+            }
+        });
+
+        function renderResults(data) {
+            resultsDiv.innerHTML = `
+                <ul class="nav nav-tabs">
+                    ${Object.keys(data).map(key => `
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#${key}">${key}</a>
+                        </li>`).join('')}
+                </ul>
+                <div class="tab-content">
+                    ${Object.keys(data).map(key => `
+                        <div class="tab-pane fade" id="${key}">
+                            <h5>${key} Data</h5>
+                            ${key === 'Actions' ? renderActionsTable(data[key]) : `<pre>${JSON.stringify(data[key], null, 2)}</pre>`}
+                        </div>`).join('')}
+                </div>
+            `;
+        }
+
+        function renderActionsTable(actions) {
+            return `
+                <div class="filter-inputs">
+                    <input type="text" id="filterSystem" class="filter-input" placeholder="Filter by System">
+                    <input type="text" id="filterDate" class="filter-input" placeholder="Filter by Date">
+                    <input type="text" id="filterLogs" class="filter-input" placeholder="Filter by Logs">
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="system-column">System</th>
+                            <th class="date-column">Date</th>
+                            <th>Logs</th>
+                        </tr>
+                    </thead>
+                    <tbody id="actionTableBody">
+                        ${actions.map((action, index) => {
+                            const logSnippet = action.log ? action.log.substring(0, 50) : "No log data available";
+                            return `
+                            <tr class="collapse-row" data-target="#jsonRow${index}" data-toggle="collapse">
+                                <td>${action.system || "Unknown"}</td>
+                                <td>${action.date || "No Date"}</td>
+                                <td>${logSnippet}...</td>
+                            </tr>
+                            <tr class="collapse" id="jsonRow${index}">
+                                <td colspan="3">
+                                    <table class="table json-table">
+                                        ${Object.keys(action).map(key => `
+                                            <tr>
+                                                <td><strong>${key}</strong></td>
+                                                <td>${JSON.stringify(action[key], null, 2)}</td>
+                                            </tr>`).join('')}
+                                    </table>
+                                </td>
+                            </tr>`;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Filter function
+        document.addEventListener('input', () => {
+            const systemFilter = document.getElementById('filterSystem').value.toLowerCase();
+            const dateFilter = document.getElementById('filterDate').value.toLowerCase();
+            const logsFilter = document.getElementById('filterLogs').value.toLowerCase();
+            const rows = document.querySelectorAll('#actionTableBody tr.collapse-row');
+
+            rows.forEach(row => {
+                const systemText = row.cells[0].innerText.toLowerCase();
+                const dateText = row.cells[1].innerText.toLowerCase();
+                const logText = row.cells[2].innerText.toLowerCase();
+
+                const isVisible =
+                    (systemText.includes(systemFilter) || !systemFilter) &&
+                    (dateText.includes(dateFilter) || !dateFilter) &&
+                    (logText.includes(logsFilter) || !logsFilter);
+
+                row.style.display = isVisible ? '' : 'none';
+            });
+        });
+    });
+</script>
 </body>
 </html>
