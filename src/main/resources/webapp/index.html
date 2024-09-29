@@ -28,11 +28,12 @@
         /* Input and button styling */
         .form-control {
             margin-right: 10px;
-            border-radius: 5px; /* Rounded edges */
+            border-radius: 30px; /* More rounded edges */
+            border: 2px solid #007bff; /* Blue border for input */
         }
 
         #searchBtn {
-            border-radius: 5px; /* Rounded edges */
+            border-radius: 30px; /* More rounded edges */
             padding: 10px 20px;
             background-color: #28a745; /* Green button */
             color: white;
@@ -253,14 +254,17 @@
             rows.forEach(row => {
                 const systemText = row.cells[0].innerText.toLowerCase();
                 const dateText = row.cells[1].innerText.toLowerCase();
-                const logText = row.cells[2].innerText.toLowerCase();
+                const logsText = row.cells[2].innerText.toLowerCase();
 
-                const isVisible =
-                    (systemText.includes(systemFilter) || !systemFilter) &&
-                    (dateText.includes(dateFilter) || !dateFilter) &&
-                    (logText.includes(logsFilter) || !logsFilter);
+                const systemMatch = systemText.includes(systemFilter);
+                const dateMatch = dateText.includes(dateFilter);
+                const logsMatch = logsText.includes(logsFilter);
 
-                row.style.display = isVisible ? '' : 'none';
+                if (systemMatch && dateMatch && logsMatch) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
             });
         });
     });
