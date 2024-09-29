@@ -28,12 +28,11 @@
         /* Input and button styling */
         .form-control {
             margin-right: 10px;
-            border-radius: 30px; /* More rounded edges */
-            border: 2px solid #007bff; /* Blue border for input */
+            border-radius: 20px; /* Rounded edges */
         }
 
         #searchBtn {
-            border-radius: 30px; /* More rounded edges */
+            border-radius: 20px; /* Rounded edges */
             padding: 10px 20px;
             background-color: #28a745; /* Green button */
             color: white;
@@ -254,16 +253,22 @@
             rows.forEach(row => {
                 const systemText = row.cells[0].innerText.toLowerCase();
                 const dateText = row.cells[1].innerText.toLowerCase();
-                const logsText = row.cells[2].innerText.toLowerCase();
+
+                // Check if the row is expanded
+                const expandedRow = row.nextElementSibling; // The expanded row
+                const logContent = expandedRow.querySelector('.json-table') ? expandedRow.innerText.toLowerCase() : '';
 
                 const systemMatch = systemText.includes(systemFilter);
                 const dateMatch = dateText.includes(dateFilter);
-                const logsMatch = logsText.includes(logsFilter);
+                const logsMatch = logContent.includes(logsFilter); // Check against expanded content
 
-                if (systemMatch && dateMatch && logsMatch) {
+                // Show or hide the row based on filter criteria
+                if (systemMatch && dateMatch && (logsFilter === '' || logsMatch)) {
                     row.style.display = ''; // Show the row
+                    expandedRow.style.display = ''; // Show the expanded row if it’s open
                 } else {
                     row.style.display = 'none'; // Hide the row
+                    expandedRow.style.display = 'none'; // Hide the expanded row
                 }
             });
         });
