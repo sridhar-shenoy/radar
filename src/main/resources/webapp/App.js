@@ -35,91 +35,59 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsDiv.innerHTML = `
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#Actions">Actions</a>
+                    <a class="nav-link active" data-toggle="tab" href="#actions">Actions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#analysis">Analysis</a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="Actions">
-                    <h5>Actions Data</h5>
-                    ${renderActionsTable(data.Actions)}
+                <div class="tab-pane fade show active" id="actions">
+                    <h5>Actions</h5>
+                    ${renderTable(data.actions)}
+                </div>
+                <div class="tab-pane fade" id="analysis">
+                    <h5>Analysis</h5>
+                    ${renderTable(data.analysis)}
                 </div>
             </div>
         `;
     }
 
-    function renderActionsTable(actions) {
+    function renderTable(logs) {
         return `
-            <div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <input type="text" id="filterSystem" class="form-control" placeholder="Filter by System">
-                    </div>
-                    <div class="col">
-                        <input type="text" id="filterDate" class="form-control" placeholder="Filter by Date">
-                    </div>
-                    <div class="col">
-                        <input type="text" id="filterLog" class="form-control" placeholder="Filter by Log">
-                    </div>
-                </div>
-                <table class="table table-bordered table-hover" id="actionsTable">
-                    <thead>
-                        <tr>
-                            <th style="width: 150px;">System</th>
-                            <th style="width: 200px;">Date</th>
-                            <th>Log</th>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="system-column">System</th>
+                        <th class="date-column">Date</th>
+                        <th>Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${logs.map((log, index) => {
+                        const rowClass = log.log === 'green' ? 'light-green' : log.log === 'red' ? 'light-red' : '';
+                        return `
+                        <tr class="collapse-row ${rowClass}" data-target="#detailsRow${index}" data-toggle="collapse">
+                            <td>${log.system || "Unknown"}</td>
+                            <td>${log.date || "No Date"}</td>
+                            <td>${log.summary || "No Summary"}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        ${actions.map((action, index) => {
-                            const logSnippet = action.log ? action.log : "No log data available";
-                            const logColorClass = getLogColorClass(action.type);
-                            return `
-                                <tr class="${logColorClass} collapse-row" data-target="#jsonRow${index}" data-toggle="collapse">
-                                    <td>${action.system || "Unknown"}</td>
-                                    <td>${action.date || "Unknown"}</td>
-                                    <td>${logSnippet}...</td>
-                                </tr>
-                                <tr class="collapse" id="jsonRow${index}">
-                                    <td colspan="3">
-                                        <div>${JSON.stringify(action, null, 2)}</div>
-                                    </td>
-                                </tr>`;
-                        }).join('')}
-                    </tbody>
-                </table>
-            </div>
+                        <tr class="collapse" id="detailsRow${index}">
+                            <td colspan="3">
+                                <table class="details-table">
+                                    ${Object.entries(log.details).map(([key, value]) => `
+                                        <tr>
+                                            <th>${key}</th>
+                                            <td>${value}</td>
+                                        </tr>
+                                    `).join('')}
+                                </table>
+                            </td>
+                        </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>
         `;
-    }
-
-    function getLogColorClass(type) {
-        if (type === "error") {
-            return "table-danger"; // Red
-        } else if (type === "success") {
-            return "table-success"; // Green
-        } else if (type === "warning") {
-            return "table-warning"; // Yellow
-        }
-        return ""; // Default no color class
-    }
-
-    // Add filtering functionality
-    document.querySelectorAll('#filterSystem, #filterDate, #filterLog').forEach(input => {
-        input.addEventListener('keyup', filterTable);
-    });
-
-    function filterTable() {
-        const systemFilter = document.getElementById('filterSystem').value.toLowerCase();
-        const dateFilter = document.getElementById('filterDate').value.toLowerCase();
-        const logFilter = document.getElementById('filterLog').value.toLowerCase();
-
-        const rows = document.querySelectorAll('#actionsTable tbody tr.collapse-row');
-        rows.forEach(row => {
-            const systemText = row.cells[0].textContent.toLowerCase();
-            const dateText = row.cells[1].textContent.toLowerCase();
-            const logText = row.cells[2].textContent.toLowerCase();
-            row.style.display = (systemText.includes(systemFilter) &&
-                                 dateText.includes(dateFilter) &&
-                                 logText.includes(logFilter)) ? '' : 'none';
-        });
     }
 });

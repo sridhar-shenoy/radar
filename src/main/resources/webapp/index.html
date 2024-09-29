@@ -137,6 +137,17 @@
             width: 100px; /* Fixed width for filter inputs */
             display: inline-block;
         }
+
+        .details-table {
+            margin-top: 10px;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .details-table th, .details-table td {
+            padding: 4px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -150,129 +161,6 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const searchBtn = document.getElementById('searchBtn');
-        const complianceIdInput = document.getElementById('complianceId');
-        const resultsDiv = document.getElementById('results');
-
-        searchBtn.addEventListener('click', async () => {
-            const complianceId = complianceIdInput.value;
-            if (!complianceId) {
-                alert("Please enter a Compliance ID");
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/search', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ complianceId }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
-                renderResults(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                resultsDiv.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
-            }
-        });
-
-        function renderResults(data) {
-            resultsDiv.innerHTML = `
-                <ul class="nav nav-tabs">
-                    ${Object.keys(data).map(key => `
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#${key}">${key}</a>
-                        </li>`).join('')}
-                </ul>
-                <div class="tab-content">
-                    ${Object.keys(data).map(key => `
-                        <div class="tab-pane fade" id="${key}">
-                            <h5>${key} Data</h5>
-                            ${key === 'Actions' ? renderActionsTable(data[key]) : `<pre>${JSON.stringify(data[key], null, 2)}</pre>`}
-                        </div>`).join('')}
-                </div>
-            `;
-        }
-
-        function renderActionsTable(actions) {
-            return `
-                <div class="filter-inputs">
-                    <input type="text" id="filterSystem" class="filter-input" placeholder="Filter by System">
-                    <input type="text" id="filterDate" class="filter-input" placeholder="Filter by Date">
-                    <input type="text" id="filterLogs" class="filter-input" placeholder="Filter by Logs">
-                </div>
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th class="system-column">System</th>
-                            <th class="date-column">Date</th>
-                            <th>Logs</th>
-                        </tr>
-                    </thead>
-                    <tbody id="actionTableBody">
-                        ${actions.map((action, index) => {
-                            const logSnippet = action.log ? action.log.substring(0, 50) : "No log data available";
-                            return `
-                            <tr class="collapse-row" data-target="#jsonRow${index}" data-toggle="collapse">
-                                <td>${action.system || "Unknown"}</td>
-                                <td>${action.date || "No Date"}</td>
-                                <td>${logSnippet}...</td>
-                            </tr>
-                            <tr class="collapse" id="jsonRow${index}">
-                                <td colspan="3">
-                                    <table class="table json-table">
-                                        ${Object.keys(action).map(key => `
-                                            <tr>
-                                                <td><strong>${key}</strong></td>
-                                                <td>${JSON.stringify(action[key], null, 2)}</td>
-                                            </tr>`).join('')}
-                                    </table>
-                                </td>
-                            </tr>`;
-                        }).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        // Filter function
-        document.addEventListener('input', () => {
-            const systemFilter = document.getElementById('filterSystem').value.toLowerCase();
-            const dateFilter = document.getElementById('filterDate').value.toLowerCase();
-            const logsFilter = document.getElementById('filterLogs').value.toLowerCase();
-            const rows = document.querySelectorAll('#actionTableBody tr.collapse-row');
-
-            rows.forEach(row => {
-                const systemText = row.cells[0].innerText.toLowerCase();
-                const dateText = row.cells[1].innerText.toLowerCase();
-
-                // Check if the row is expanded
-                const expandedRow = row.nextElementSibling; // The expanded row
-                const logContent = expandedRow.querySelector('.json-table') ? expandedRow.innerText.toLowerCase() : '';
-
-                const systemMatch = systemText.includes(systemFilter);
-                const dateMatch = dateText.includes(dateFilter);
-                const logsMatch = logContent.includes(logsFilter); // Check against expanded content
-
-                // Show or hide the row based on filter criteria
-                if (systemMatch && dateMatch && (logsFilter === '' || logsMatch)) {
-                    row.style.display = ''; // Show the row
-                    expandedRow.style.display = ''; // Show the expanded row if it’s open
-                } else {
-                    row.style.display = 'none'; // Hide the row
-                    expandedRow.style.display = 'none'; // Hide the expanded row
-                }
-            });
-        });
-    });
-</script>
+<script src="App.js"></script>
 </body>
 </html>
