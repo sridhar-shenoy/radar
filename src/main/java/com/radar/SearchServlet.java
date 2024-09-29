@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @WebServlet("/api/search")
-public class SearchServlet extends HttpServlet {
+    public class SearchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,6 +35,11 @@ public class SearchServlet extends HttpServlet {
         // Convert the result to JSON and write it back to the response
         PrintWriter out = response.getWriter();
         String jsonResponse = new Gson().toJson(result);
+        try {
+            TimeUnit.SECONDS.sleep(8);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         out.print(jsonResponse);
         out.flush();
     }

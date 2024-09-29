@@ -3,12 +3,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const complianceIdInput = document.getElementById('complianceId');
     const resultsDiv = document.getElementById('results');
 
+    // Create a spinner element
+    const spinner = `
+        <div id="spinner" class="text-left my-4">
+            <div class="spinner-border text-primary" role="status" style="width: 1.5rem; height: 1.5rem;">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="ml-2 d-inline" style="color: #007bff;">Searching for logs...</p>
+        </div>
+    `;
+
     searchBtn.addEventListener('click', async () => {
         const complianceId = complianceIdInput.value;
         if (!complianceId) {
             alert("Please enter a Compliance ID");
             return;
         }
+
+        // Clear previous results and show the spinner
+        resultsDiv.innerHTML = spinner;
 
         try {
             const response = await fetch('/api/search', {
@@ -32,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function renderResults(data) {
+        // Clear spinner and show the results
         resultsDiv.innerHTML = `
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -66,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </thead>
                 <tbody>
                     ${logs.map((log, index) => {
-                        const rowClass = log.log === 'green' ? 'light-green' : log.log === 'red' ? 'light-red' : '';
+                        const rowClass = getRowClass(log.log);
                         return `
                         <tr class="collapse-row ${rowClass}" data-target="#detailsRow${index}" data-toggle="collapse">
                             <td>${log.system || "Unknown"}</td>
@@ -89,5 +103,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tbody>
             </table>
         `;
+    }
+
+    function getRowClass(logValue) {
+        switch (logValue) {
+            case 'green':
+                return 'light-green';  // Add this class in your CSS for pale green
+            case 'yellow':
+                return 'light-yellow'; // Add this class in your CSS for pale yellow
+            case 'red':
+                return 'light-red';    // Add this class in your CSS for pale red
+            // You can add more colors here as needed
+            default:
+                return ''; // No specific class if logValue is unknown
+        }
     }
 });
