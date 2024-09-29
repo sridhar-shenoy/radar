@@ -5,38 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compliance ID Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./styles.css">
     <style>
+        /* Background styling */
         body {
-            background-color: #f8f9fa; /* Light background color */
+            position: relative;
+            min-height: 100vh;
+            background-image: url('./images/radar.jpg'); /* Local radar image */
+            background-size: cover; /* Cover the whole page */
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: multiply; /* Blend the background for a dulled effect */
         }
+
+        /* Fading overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Black overlay with 40% transparency */
+            z-index: 0;
+        }
+
+        .container-fluid {
+            position: relative;
+            z-index: 1;
+        }
+
         .jumbotron {
-            background-color: #ffffff; /* White background for the jumbotron */
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            background-color: rgba(255, 255, 255, 0.8); /* Slight transparency */
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+            padding: 20px;
         }
-        #results {
-            margin-top: 20px; /* Space between search and results */
+
+        h1 {
+            color: #007bff;
+            font-weight: bold;
         }
+
+        #root {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-start; /* Left-aligned */
+        }
+
+        #complianceId {
+            flex-grow: 1;
+            margin-right: 10px;
+            border-radius: 50px; /* Rounded input */
+            padding: 10px;
+            border: 2px solid #007bff; /* Blue border for the input */
+            background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency */
+        }
+
+        #searchBtn {
+            border-radius: 50px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+        }
+
+        #searchBtn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
         .nav-tabs {
-            border: 2px solid #007bff; /* Border around tabs */
-            background-color: #e9ecef; /* Background color for tabs */
-            border-radius: 5px; /* Rounded corners */
+            border: 2px solid #007bff;
+            background-color: rgba(255, 255, 255, 0.8); /* Light transparency for tabs */
+            border-radius: 5px;
         }
+
         .nav-tabs .nav-link {
-            color: #007bff; /* Tab text color */
-            border: none; /* Remove default border */
+            color: #007bff;
         }
+
         .nav-tabs .nav-link.active {
-            background-color: #007bff; /* Active tab color */
-            color: white; /* Active tab text color */
+            background-color: #007bff;
+            color: white;
         }
+
         .tab-content {
-            border: 1px solid #007bff; /* Border around tab content */
-            border-radius: 5px; /* Rounded corners for content */
-            padding: 15px; /* Padding for content */
-            background-color: #ffffff; /* White background for content */
-            margin-top: 10px; /* Space between tabs and content */
+            border: 1px solid #007bff;
+            background-color: rgba(255, 255, 255, 0.9); /* Transparent background */
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        /* Styling for the table */
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .collapse-row {
+            cursor: pointer;
+        }
+
+        .json-table td {
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -46,8 +121,8 @@
         <h1 class="mb-4">Compliance ID Search</h1>
         <div id="root" class="d-flex align-items-center mb-4">
             <label for="complianceId" class="mr-2">Compliance ID:</label>
-            <input type="text" id="complianceId" class="form-control rounded-pill" placeholder="Enter Compliance ID" style="width: 300px;">
-            <button id="searchBtn" class="btn btn-primary rounded-pill ml-2">Search</button>
+            <input type="text" id="complianceId" class="form-control" placeholder="Enter Compliance ID">
+            <button id="searchBtn" class="btn btn-primary ml-2">Search</button>
         </div>
     </div> <!-- End of jumbotron -->
 
