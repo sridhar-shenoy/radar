@@ -3,14 +3,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const complianceIdInput = document.getElementById('complianceId');
     const resultsDiv = document.getElementById('results');
 
-    const spinner = `
-        <div id="spinner" class="text-left my-4">
-            <div class="spinner-border text-primary" role="status" style="width: 1.5rem; height: 1.5rem;">
-                <span class="sr-only">Loading...</span>
-            </div>
-            <p class="ml-2 d-inline" style="color: #007bff;">Searching for logs...</p>
+const spinner = `
+    <div id="spinner" class="text-left my-4">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <p class="loading-text">Searching for logs...</p>
         </div>
-    `;
+    </div>
+`;
+
+const styles = `
+    <style>
+        .spinner-container {
+            display: flex;
+            align-items: center; /* Align items vertically centered */
+            background-color: rgba(255, 255, 255, 0.9); /* Light white with slight transparency */
+            padding: 15px 20px; /* Padding for the text */
+            border-radius: 15px; /* More rounded edges */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
+            max-width: fit-content; /* Fit to content */
+            margin-left: 0; /* Left aligned */
+            margin-top: 20px; /* Space from top */
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1); /* Light border for premium feel */
+            border-left-color: #007bff; /* Primary color for spinner */
+            border-radius: 50%;
+            width: 40px; /* Slightly larger size for visibility */
+            height: 40px; /* Slightly larger size for visibility */
+            animation: spin 1s linear infinite;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Shadow for the spinner itself */
+        }
+        .loading-text {
+            margin-left: 15px; /* Space between spinner and text */
+            color: #000080; /* Navy blue for contrast with background */
+            font-weight: bold;
+            font-size: 1.2rem; /* Slightly larger font size for prominence */
+            letter-spacing: 1px; /* Spacing for a premium feel */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+`;
+
+// Append the styles to the head
+document.head.insertAdjacentHTML('beforeend', styles);
+
 
     searchBtn.addEventListener('click', async () => {
         const complianceId = complianceIdInput.value;
