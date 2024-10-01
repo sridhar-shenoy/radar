@@ -68,34 +68,109 @@
             color: white;
         }
 
-        /* Tab content styling */
-        .tab-content {
-            background-color: #F5F5F5; /* Light grey background */
-            border: 1px solid purple; /* Purple border */
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-            color: #000080; /* Navy blue text */
-        }
+   /* Table styling inside tabs */
+/* Table styling inside tabs */
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Prevents overflow of child elements */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    background-color: #ffffff; /* White background for a clean look */
+    font-family: 'Arial Narrow', Arial, sans-serif; /* Compact font */
+    font-size: 13px; /* Slightly smaller font size for a more compact appearance */
+}
 
-        /* Table styling inside tabs */
-        .table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
+.table th, .table td {
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for cells */
+    padding: 8px; /* Reduced padding for a more compact feel */
+    text-align: left;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+}
 
-        .table th, .table td {
-            border: 1px solid purple; /* Purple border for table cells */
-            padding: 5px; /* Reduced padding for more compact height */
-            text-align: left;
-            font-size: 12px; /* Reduced font size for row content */
-        }
+.table th {
+    background-color: #eaeaea; /* Light grey background for header */
+    color: #000080; /* Navy blue text */
+    font-weight: bold; /* Bold header text */
+    position: sticky; /* Keeps header on top */
+    top: 0; /* Sticks header to the top */
+    z-index: 1; /* Ensures header is above other content */
+}
 
-        .table th {
-            background-color: #d3d3d3; /* Light grey background for header */
-            color: #000080; /* Navy blue text */
-        }
+.table th:hover {
+    background-color: #d4d4d4; /* Slightly darker grey on hover */
+}
+
+.table tr:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background on row hover */
+}
+
+/* Specific widths for the columns */
+.date-column {
+    width: 150px; /* Width to accommodate the date format */
+    white-space: nowrap; /* Prevents line break for date */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+}
+
+.system-column {
+    width: 100px; /* Width to accommodate 'Blackbird' */
+}
+
+/* Styling for the details table */
+.details-table {
+    margin-top: 10px;
+    font-size: 12px;
+    width: 100%;
+    border: 1px solid #007bff; /* Outer border */
+    border-collapse: collapse; /* Collapse borders */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for details table */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.details-table th, .details-table td {
+    padding: 4px; /* Reduced padding for compactness */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Inner border with subtle effect */
+    text-align: left;
+}
+
+.details-table th {
+    background-color: #f1f1f1; /* Light grey background for header */
+    color: #000080; /* Navy blue text */
+}
+
+/* Filter input styling */
+.filter-input {
+    margin-bottom: 10px;
+    border-radius: 5px; /* Rounded edges */
+    width: 100px; /* Fixed width for filter inputs */
+    padding: 6px; /* Padding for better touch */
+    font-family: 'Arial Narrow', Arial, sans-serif; /* Match font with the table */
+    font-size: 13px; /* Same font size as the table */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for inputs */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow effect */
+}
+
+/* Adjusting the filter inputs to align with table headers */
+.filter-inputs {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: flex-start; /* Align items to the start */
+    gap: 10px; /* Space between inputs */
+}
+
+.filter-input::placeholder {
+    color: rgba(0, 0, 0, 0.5); /* Placeholder text color */
+}
+
+/* Add specific styling to match table columns */
+.filter-input-container {
+    flex: 1; /* Allow inputs to grow */
+    max-width: 150px; /* Limit max width for inputs */
+}
+
+
+
 
         /* Color styles for logs */
         .light-red {

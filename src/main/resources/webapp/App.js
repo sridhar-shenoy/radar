@@ -109,11 +109,18 @@ document.head.insertAdjacentHTML('beforeend', styles);
 
     function renderFilters(logs, type) {
         return `
-            <div class="filter-inputs mb-3">
-                <input type="text" placeholder="System" oninput="filterLogs(event, '${type}', 'system')" class="filter-input">
-                <input type="text" placeholder="Date" oninput="filterLogs(event, '${type}', 'date')" class="filter-input">
-                <input type="text" placeholder="Summary" oninput="filterLogs(event, '${type}', 'summary')" class="filter-input">
-            </div>
+           <div class="filter-inputs mb-3">
+               <div class="filter-input-container">
+                   <input type="text" placeholder="System" oninput="filterLogs(event, 'actions', 'system')" class="filter-input">
+               </div>
+               <div class="filter-input-container">
+                   <input type="text" placeholder="Date" oninput="filterLogs(event, 'actions', 'date')" class="filter-input">
+               </div>
+               <div class="filter-input-container">
+                   <input type="text" placeholder="Summary" oninput="filterLogs(event, 'actions', 'summary')" class="filter-input">
+               </div>
+           </div>
+
         `;
     }
 
