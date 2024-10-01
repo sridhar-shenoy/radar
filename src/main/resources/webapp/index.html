@@ -283,36 +283,38 @@
             display: inline-block;
         }
 /* Table styling inside tabs */
+/* Table styling inside tabs */
 .table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
     border-radius: 10px; /* Rounded corners */
     overflow: hidden; /* Prevents overflow of child elements */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Enhanced shadow effect */
-    background-color: #ffffff; /* White background for a clean look */
+    background: linear-gradient(135deg, #e0e0e0, #b0b0b0); /* Metallic gradient */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow effect for depth */
     font-family: 'Arial Narrow', Arial, sans-serif; /* Compact font */
     font-size: 13px; /* Slightly smaller font size for a more compact appearance */
 }
 
 .table th, .table td {
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for cells */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Slightly darker border for a premium feel */
     padding: 8px; /* Reduced padding for a more compact feel */
     text-align: left;
     transition: background-color 0.3s ease; /* Smooth transition for hover effects */
 }
 
 .table th {
-    background-color: #eaeaea; /* Light grey background for header */
+    background-color: rgba(255, 255, 255, 0.8); /* Light background for header */
     color: #000080; /* Navy blue text */
     font-weight: bold; /* Bold header text */
     position: sticky; /* Keeps header on top */
     top: 0; /* Sticks header to the top */
     z-index: 1; /* Ensures header is above other content */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
 }
 
 .table th:hover {
-    background-color: #d4d4d4; /* Slightly darker grey on hover */
+    background-color: rgba(220, 220, 220, 0.8); /* Slightly darker grey on hover */
 }
 
 .table tr:hover {
@@ -330,7 +332,6 @@
 .system-column {
     width: 100px; /* Width to accommodate 'Blackbird' */
 }
-
 
 /* Tab */
 .nav-tabs {
@@ -387,19 +388,21 @@
     width: 100%;
     border: 1px solid #007bff; /* Outer border */
     border-collapse: collapse; /* Collapse borders */
+    background: linear-gradient(135deg, #e0e0e0, #b0b0b0); /* Metallic gradient */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow for details table */
     border-radius: 8px; /* Rounded corners */
 }
 
 .details-table th, .details-table td {
     padding: 4px; /* Reduced padding for compactness */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Inner border with subtle effect */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Inner border with subtle effect */
     text-align: left;
 }
 
 .details-table th {
-    background-color: #f1f1f1; /* Light grey background for header */
+    background-color: rgba(255, 255, 255, 0.8); /* Light grey background for header */
     color: #000080; /* Navy blue text */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
 }
 
 
