@@ -82,9 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="system-column">System <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼🔽</span></th>
-                        <th class="date-column">Date <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼🔽</span></th>
-                        <th>Summary <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼🔽</span></th>
+                        <th class="system-column">System <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼</span><span onclick="sortTable(event, 'system', true)" style="cursor: pointer;">🔽</span></th>
+                        <th class="date-column">Date <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼</span><span onclick="sortTable(event, 'date', true)" style="cursor: pointer;">🔽</span></th>
+                        <th>Summary <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼</span><span onclick="sortTable(event, 'summary', true)" style="cursor: pointer;">🔽</span></th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -128,13 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.sortTable = (event, column) => {
+    let sortOrder = {};
+
+    window.sortTable = (event, column, descending = false) => {
         const tableBody = event.target.closest('table').querySelector('tbody');
-        const rows = Array.from(tableBody.rows);
-        const sortedRows = rows.slice(0).sort((a, b) => {
+        const rows = Array.from(tableBody.rows).filter(row => row.classList.contains('collapse-row'));
+
+        if (!sortOrder[column]) {
+            sortOrder[column] = 'asc'; // Default to ascending
+        } else if (sortOrder[column] === 'asc' && !descending) {
+            sortOrder[column] = 'desc';
+        } else {
+            sortOrder[column] = 'asc';
+        }
+
+        const sortedRows = rows.sort((a, b) => {
             const aText = a.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
             const bText = b.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
-            return aText.localeCompare(bText);
+
+            return sortOrder[column] === 'asc' ? aText.localeCompare(bText) : bText.localeCompare(aText);
         });
 
         tableBody.innerHTML = '';
