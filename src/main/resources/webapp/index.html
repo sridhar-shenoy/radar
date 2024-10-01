@@ -25,24 +25,94 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* Input and button styling */
-        .form-control {
-            margin-right: 10px;
-            border-radius: 20px; /* Rounded edges */
-        }
 
-        #searchBtn {
-            border-radius: 20px; /* Rounded edges */
-            padding: 10px 20px;
-            background-color: #28a745; /* Green button */
-            color: white;
-            border: none;
-            font-size: 16px;
-        }
+/* Search box area styling */
+/* Search box area styling */
+.search-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 30px;
+    max-width: 800px;
+    background: linear-gradient(135deg, #1a1a1a, #4d4d4d); /* Dark metallic gradient */
+    border-radius: 30px; /* Sleek rounded edges */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5); /* Deeper shadow for depth */
+}
 
-        #searchBtn:hover {
-            background-color: #218838; /* Darker green on hover */
-        }
+/* Input and button styling */
+/* Search box area styling */
+.search-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 30px;
+    max-width: 800px;
+    background: linear-gradient(135deg, #e0e0e0, #c0c0c0); /* Metallic gradient */
+    border-radius: 30px; /* Sleek rounded edges */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+}
+
+/* Input and button styling */
+.form-control {
+    margin-right: 10px;
+    border-radius: 20px; /* Rounded edges */
+    background: rgba(255, 255, 255, 0.8); /* Light background for input */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Subtle border */
+    transition: background 0.3s ease; /* Smooth background transition */
+}
+
+.form-control:focus {
+    background: #ffffff; /* White background on focus */
+    border-color: #007bff; /* Primary color border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus shadow */
+}
+
+/* Updated search button styling */
+#searchBtn {
+    border-radius: 20px; /* Rounded edges */
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #e0e0e0, #b0b0b0); /* Silver metallic gradient */
+    color: #333333; /* Dark text for contrast */
+    border: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3); /* Deeper shadow for depth */
+}
+
+#searchBtn:hover {
+    background: linear-gradient(135deg, #c0c0c0, #909090); /* Darker silver on hover */
+    transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+#searchBtn:active {
+    background: linear-gradient(135deg, #a0a0a0, #707070); /* Even darker for active state */
+}
+
+
+/* Filter input styling */
+.filter-input {
+    margin-bottom: 10px;
+    border-radius: 5px; /* Rounded edges */
+    width: 100px; /* Fixed width for filter inputs */
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.8); /* Light background for inputs */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Subtle border */
+    transition: background 0.3s ease; /* Smooth background transition */
+}
+
+.filter-input:focus {
+    background: #ffffff; /* White background on focus */
+    border-color: #007bff; /* Primary color border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus shadow */
+}
+
+/* Adjusting the filter inputs to align with table headers */
+.filter-inputs {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: flex-start; /* Align items to the start */
+    gap: 10px; /* Space between inputs */
+}
+
 
         /* Tab styling */
         .nav-tabs {

@@ -17,10 +17,10 @@ const styles = `
         .spinner-container {
             display: flex;
             align-items: center; /* Align items vertically centered */
-            background-color: rgba(255, 255, 255, 0.9); /* Light white with slight transparency */
+            background: linear-gradient(135deg, #e0e0e0, #b0b0b0); /* Silver metallic gradient */
             padding: 15px 20px; /* Padding for the text */
             border-radius: 15px; /* More rounded edges */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced metallic shadow */
             max-width: fit-content; /* Fit to content */
             margin-left: 0; /* Left aligned */
             margin-top: 20px; /* Space from top */
@@ -32,7 +32,7 @@ const styles = `
             width: 40px; /* Slightly larger size for visibility */
             height: 40px; /* Slightly larger size for visibility */
             animation: spin 1s linear infinite;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Shadow for the spinner itself */
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3); /* Metallic shadow for the spinner */
         }
         .loading-text {
             margin-left: 15px; /* Space between spinner and text */
@@ -47,6 +47,7 @@ const styles = `
         }
     </style>
 `;
+
 
 // Append the styles to the head
 document.head.insertAdjacentHTML('beforeend', styles);
