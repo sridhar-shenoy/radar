@@ -94,12 +94,10 @@ document.head.insertAdjacentHTML('beforeend', styles);
           </ul>
           <div class="tab-content">
               <div class="tab-pane fade show active" id="actions">
-                  <h5>Actions</h5>
                   ${renderTable(data.actions)}
               </div>
               <div class="tab-pane fade" id="analysis">
-                  <h5>Analysis</h5>
-                                    ${renderTable(data.analysis)}
+                  ${renderTable(data.analysis)}
               </div>
           </div>
       `;

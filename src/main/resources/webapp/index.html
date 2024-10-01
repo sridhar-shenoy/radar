@@ -262,32 +262,45 @@
 }
 
 
-/* Tab styling */
-/* Tab styling */
+/* Tab */
 .nav-tabs {
     border: none; /* Remove border for a cleaner look */
-    background: linear-gradient(to bottom right, #ffffff, #f0f0f0); /* Subtle gradient for background */
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* Subtle gradient for background */
     border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Light shadow for depth */
     overflow: hidden; /* Prevents overflow of child elements */
 }
 
 .nav-tabs .nav-link {
-    color: #000080; /* Navy blue text */
+    color: #343a40; /* Dark gray text */
     background-color: transparent; /* Make background transparent */
     border: none; /* Remove borders from links */
-    padding: 10px 20px; /* Increase padding for better touch targets */
+    padding: 12px 25px; /* Increase padding for better touch targets */
     border-radius: 0; /* No rounded edges on individual links */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+    position: relative; /* For pseudo-element positioning */
+}
+
+.nav-tabs .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px; /* Height of the underline */
+    background: linear-gradient(90deg, #6c757d, #adb5bd); /* Metallic effect */
+    border-radius: 12px 12px 0 0; /* Curved edges for underline */
+    transition: transform 0.3s ease; /* Smooth transition */
 }
 
 .nav-tabs .nav-link:hover {
-    background-color: rgba(0, 123, 255, 0.1); /* Light blue on hover */
-    color: #007bff; /* Change text color on hover */
+    background-color: rgba(255, 215, 0, 0.2); /* Light gold on hover */
+    color: #000; /* Change text color on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #007bff; /* Active tab color */
+    background-color: #343a40; /* Dark gray for active tab */
     color: white; /* White text for active tab */
     font-weight: bold; /* Bold active tab text */
     box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.2); /* Subtle inset shadow */
