@@ -82,30 +82,30 @@ document.head.insertAdjacentHTML('beforeend', styles);
         }
     });
 
-    function renderResults(data) {
-        resultsDiv.innerHTML = `
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#actions">Actions</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#analysis">Analysis</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="actions">
-                    <h5>Actions</h5>
-                    ${renderFilters(data.actions, 'actions')}
-                    ${renderTable(data.actions)}
-                </div>
-                <div class="tab-pane fade" id="analysis">
-                    <h5>Analysis</h5>
-                    ${renderFilters(data.analysis, 'analysis')}
-                    ${renderTable(data.analysis)}
-                </div>
-            </div>
-        `;
-    }
+  function renderResults(data) {
+      resultsDiv.innerHTML = `
+          <ul class="nav nav-tabs">
+              <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#actions">Actions</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#analysis">Analysis</a>
+              </li>
+          </ul>
+          <div class="tab-content">
+              <div class="tab-pane fade show active" id="actions">
+                  <h5>Actions</h5>
+                  ${renderFilters(data.actions, 'actions')}
+                  ${renderTable(data.actions)}
+              </div>
+              <div class="tab-pane fade" id="analysis">
+                  <h5>Analysis</h5>
+                  ${renderFilters(data.analysis, 'analysis')}
+                  ${renderTable(data.analysis)}
+              </div>
+          </div>
+      `;
+  }
 
     function renderFilters(logs, type) {
         return `

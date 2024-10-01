@@ -212,24 +212,113 @@
             width: 100px; /* Fixed width for filter inputs */
             display: inline-block;
         }
+/* Table styling inside tabs */
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Prevents overflow of child elements */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Enhanced shadow effect */
+    background-color: #ffffff; /* White background for a clean look */
+    font-family: 'Arial Narrow', Arial, sans-serif; /* Compact font */
+    font-size: 13px; /* Slightly smaller font size for a more compact appearance */
+}
 
-    .details-table {
+.table th, .table td {
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for cells */
+    padding: 8px; /* Reduced padding for a more compact feel */
+    text-align: left;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.table th {
+    background-color: #eaeaea; /* Light grey background for header */
+    color: #000080; /* Navy blue text */
+    font-weight: bold; /* Bold header text */
+    position: sticky; /* Keeps header on top */
+    top: 0; /* Sticks header to the top */
+    z-index: 1; /* Ensures header is above other content */
+}
+
+.table th:hover {
+    background-color: #d4d4d4; /* Slightly darker grey on hover */
+}
+
+.table tr:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background on row hover */
+}
+
+/* Specific widths for the columns */
+.date-column {
+    width: 150px; /* Width to accommodate the date format */
+    white-space: nowrap; /* Prevents line break for date */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+}
+
+.system-column {
+    width: 100px; /* Width to accommodate 'Blackbird' */
+}
+
+
+/* Tab styling */
+/* Tab styling */
+.nav-tabs {
+    border: none; /* Remove border for a cleaner look */
+    background: linear-gradient(to bottom right, #ffffff, #f0f0f0); /* Subtle gradient for background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    overflow: hidden; /* Prevents overflow of child elements */
+}
+
+.nav-tabs .nav-link {
+    color: #000080; /* Navy blue text */
+    background-color: transparent; /* Make background transparent */
+    border: none; /* Remove borders from links */
+    padding: 10px 20px; /* Increase padding for better touch targets */
+    border-radius: 0; /* No rounded edges on individual links */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue on hover */
+    color: #007bff; /* Change text color on hover */
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #007bff; /* Active tab color */
+    color: white; /* White text for active tab */
+    font-weight: bold; /* Bold active tab text */
+    box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.2); /* Subtle inset shadow */
+}
+
+.nav-tabs .nav-link:not(.active) {
+    border-radius: 12px; /* Rounded edges for inactive links */
+}
+
+/* Styling for the details table */
+.details-table {
     margin-top: 10px;
     font-size: 12px;
     width: 100%;
-    border: 1px solid #ccc; /* Outer border */
+    border: 1px solid #007bff; /* Outer border */
     border-collapse: collapse; /* Collapse borders */
-    }
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow for details table */
+    border-radius: 8px; /* Rounded corners */
+}
 
 .details-table th, .details-table td {
-    padding: 4px;
-    border: 1px solid #007bff; /* Inner border */
+    padding: 4px; /* Reduced padding for compactness */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Inner border with subtle effect */
     text-align: left;
-    }
+}
 
-        .details-table th {
-            background-color: #f1f1f1; /* Light grey background for header */
-        }
+.details-table th {
+    background-color: #f1f1f1; /* Light grey background for header */
+    color: #000080; /* Navy blue text */
+}
+
 
 
         .light-green {
