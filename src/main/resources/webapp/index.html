@@ -5,12 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compliance ID Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
     <style>
+
+        /* Banner*/
+        /* Metallic banner styling */
+.banner {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #e6e6e6, #c0c0c0); /* Lighter metallic gradient */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6); /* Stronger shadow for depth, simulating light from top right */
+    margin-bottom: 30px; /* Space below the banner */
+    font-family: 'Montserrat', sans-serif; /* Professional font */
+    color: #333333; /* Darker text for contrast */
+}
+
+.banner h1 {
+    font-size: 36px; /* Increase font size */
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.8); /* Stronger shadow effect */
+}
+
+
+
+
+
+
+
         /* Background and text colors */
         body {
             position: relative;
             min-height: 100vh;
-            background-color: #FAEBD7; /* Pale yellow background */
+            background-color: #EAEAEA; /* Very light silver for a subtle metallic feel */
             font-family: 'Arial', sans-serif;
             color: #000080; /* Navy blue text */
         }
@@ -421,6 +449,9 @@
     </style>
 </head>
 <body>
+<div class="banner">
+    <h1>Log Analysis Tool</h1>
+</div>
 <div class="container-fluid mt-5">
     <div class="search-header">
         <input type="text" id="complianceId" class="form-control" placeholder="Enter Compliance ID (40 characters)">
