@@ -163,17 +163,30 @@ function renderTable(logs) {
     `;
 }
 
-    window.filterLogs = (event, type, column) => {
-        const inputValue = event.target.value.toLowerCase();
-        const tableRows = Array.from(document.querySelectorAll(`#${type} tbody tr.collapse-row`));
+  window.filterLogs = (event, type) => {
+      const filterInputs = Array.from(document.querySelectorAll(`#${type} .filter-input`));
+      const tableRows = Array.from(document.querySelectorAll(`#${type} tbody tr.collapse-row`));
 
-        tableRows.forEach(row => {
-            const rowCells = row.children;
-            const cellValue = rowCells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent.toLowerCase();
-            const isVisible = cellValue.includes(inputValue);
-            row.style.display = isVisible ? '' : 'none';
-        });
-    };
+      // Collect input values
+      const filterValues = filterInputs.map(input => input.value.toLowerCase());
+
+      tableRows.forEach(row => {
+          const rowCells = row.children;
+          const systemValue = rowCells[0].textContent.toLowerCase();
+          const dateValue = rowCells[1].textContent.toLowerCase();
+          const summaryValue = rowCells[2].textContent.toLowerCase();
+
+          // Check if the row should be visible based on all filter inputs
+          const isVisible = filterValues.every((filterValue, index) => {
+              if (!filterValue) return true; // No filter applied for this input
+              const cellValue = index === 0 ? systemValue : index === 1 ? dateValue : summaryValue;
+              return cellValue.includes(filterValue);
+          });
+
+          row.style.display = isVisible ? '' : 'none';
+      });
+  };
+
 
     let sortOrder = {};
 
