@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const complianceIdInput = document.getElementById('complianceId');
     const resultsDiv = document.getElementById('results');
 
-    // Create a spinner element
     const spinner = `
         <div id="spinner" class="text-left my-4">
             <div class="spinner-border text-primary" role="status" style="width: 1.5rem; height: 1.5rem;">
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Clear previous results and show the spinner
         resultsDiv.innerHTML = spinner;
 
         try {
@@ -45,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function renderResults(data) {
-        // Clear spinner and show the results
         resultsDiv.innerHTML = `
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -58,12 +55,24 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="actions">
                     <h5>Actions</h5>
+                    ${renderFilters(data.actions, 'actions')}
                     ${renderTable(data.actions)}
                 </div>
                 <div class="tab-pane fade" id="analysis">
                     <h5>Analysis</h5>
+                    ${renderFilters(data.analysis, 'analysis')}
                     ${renderTable(data.analysis)}
                 </div>
+            </div>
+        `;
+    }
+
+    function renderFilters(logs, type) {
+        return `
+            <div class="filter-inputs mb-3">
+                <input type="text" placeholder="System" oninput="filterLogs(event, '${type}', 'system')" class="filter-input">
+                <input type="text" placeholder="Date" oninput="filterLogs(event, '${type}', 'date')" class="filter-input">
+                <input type="text" placeholder="Summary" oninput="filterLogs(event, '${type}', 'summary')" class="filter-input">
             </div>
         `;
     }
@@ -73,12 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="system-column">System</th>
-                        <th class="date-column">Date</th>
-                        <th>Summary</th>
+                        <th class="system-column">System <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼🔽</span></th>
+                        <th class="date-column">Date <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼🔽</span></th>
+                        <th>Summary <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼🔽</span></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBody">
                     ${logs.map((log, index) => {
                         const rowClass = getRowClass(log.log);
                         return `
@@ -88,14 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td>${log.summary || "No Summary"}</td>
                         </tr>
                         <tr class="collapse" id="detailsRow${index}">
-                            <td colspan="3">
-                                <table class="details-table">
-                                    ${Object.entries(log.details).map(([key, value]) => `
-                                        <tr>
-                                            <th>${key}</th>
-                                            <td>${value}</td>
-                                        </tr>
-                                    `).join('')}
+                            <td colspan="3" style="padding: 0;">
+                                <table class="details-table table table-bordered">
+                                    <tbody>
+                                        ${Object.entries(log.details).map(([key, value]) => `
+                                            <tr>
+                                                <th>${key}</th>
+                                                <td>${value}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
                                 </table>
                             </td>
                         </tr>`;
@@ -105,17 +116,41 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    window.filterLogs = (event, type, column) => {
+        const inputValue = event.target.value.toLowerCase();
+        const tableRows = Array.from(document.querySelectorAll(`#${type} tbody tr.collapse-row`));
+
+        tableRows.forEach(row => {
+            const rowCells = row.children;
+            const cellValue = rowCells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent.toLowerCase();
+            const isVisible = cellValue.includes(inputValue);
+            row.style.display = isVisible ? '' : 'none';
+        });
+    };
+
+    window.sortTable = (event, column) => {
+        const tableBody = event.target.closest('table').querySelector('tbody');
+        const rows = Array.from(tableBody.rows);
+        const sortedRows = rows.slice(0).sort((a, b) => {
+            const aText = a.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
+            const bText = b.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
+            return aText.localeCompare(bText);
+        });
+
+        tableBody.innerHTML = '';
+        sortedRows.forEach(row => tableBody.appendChild(row));
+    };
+
     function getRowClass(logValue) {
         switch (logValue) {
             case 'green':
-                return 'light-green';  // Add this class in your CSS for pale green
+                return 'light-green';
             case 'yellow':
-                return 'light-yellow'; // Add this class in your CSS for pale yellow
+                return 'light-yellow';
             case 'red':
-                return 'light-red';    // Add this class in your CSS for pale red
-            // You can add more colors here as needed
+                return 'light-red';
             default:
-                return ''; // No specific class if logValue is unknown
+                return '';
         }
     }
 });

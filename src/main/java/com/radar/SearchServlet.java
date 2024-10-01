@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
         PrintWriter out = response.getWriter();
         String jsonResponse = new Gson().toJson(result);
         try {
-            TimeUnit.SECONDS.sleep(8);
+            TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
