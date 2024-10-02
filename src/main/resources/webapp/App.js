@@ -3,55 +3,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const complianceIdInput = document.getElementById('complianceId');
     const resultsDiv = document.getElementById('results');
 
-const spinner = `
-    <div id="spinner" class="text-left my-4">
-        <div class="spinner-container">
-            <div class="spinner"></div>
-            <p class="loading-text">Searching for logs...</p>
+    const spinner = `
+        <div id="spinner" class="text-left my-4">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p class="loading-text">Searching for logs...</p>
+            </div>
         </div>
-    </div>
-`;
+    `;
 
-const styles = `
-    <style>
-        .spinner-container {
-            display: flex;
-            align-items: center; /* Align items vertically centered */
-            background: linear-gradient(135deg, #e0e0e0, #b0b0b0); /* Silver metallic gradient */
-            padding: 15px 20px; /* Padding for the text */
-            border-radius: 15px; /* More rounded edges */
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced metallic shadow */
-            max-width: fit-content; /* Fit to content */
-            margin-left: 0; /* Left aligned */
-            margin-top: 20px; /* Space from top */
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1); /* Light border for premium feel */
-            border-left-color: #007bff; /* Primary color for spinner */
-            border-radius: 50%;
-            width: 40px; /* Slightly larger size for visibility */
-            height: 40px; /* Slightly larger size for visibility */
-            animation: spin 1s linear infinite;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3); /* Metallic shadow for the spinner */
-        }
-        .loading-text {
-            margin-left: 15px; /* Space between spinner and text */
-            color: #000080; /* Navy blue for contrast with background */
-            font-weight: bold;
-            font-size: 1.2rem; /* Slightly larger font size for prominence */
-            letter-spacing: 1px; /* Spacing for a premium feel */
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-`;
+    const styles = `
+        <style>
+            .spinner-container {
+                display: flex;
+                align-items: center;
+                background: linear-gradient(135deg, #e0e0e0, #b0b0b0);
+                padding: 15px 20px;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
+                max-width: fit-content;
+                margin-left: 0;
+                margin-top: 20px;
+            }
+            .spinner {
+                border: 4px solid rgba(0, 0, 0, 0.1);
+                border-left-color: #007bff;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+            .loading-text {
+                margin-left: 15px;
+                color: #000080;
+                font-weight: bold;
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    `;
 
-
-// Append the styles to the head
-document.head.insertAdjacentHTML('beforeend', styles);
-
+    // Append the styles to the head
+    document.head.insertAdjacentHTML('beforeend', styles);
 
     searchBtn.addEventListener('click', async () => {
         const complianceId = complianceIdInput.value;
@@ -83,117 +81,121 @@ document.head.insertAdjacentHTML('beforeend', styles);
         }
     });
 
-  function renderResults(data) {
-      resultsDiv.innerHTML = `
-          <ul class="nav nav-tabs">
-              <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#actions">Actions</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#analysis">Analysis</a>
-              </li>
-          </ul>
-          <div class="tab-content">
-              <div class="tab-pane fade show active" id="actions">
-                  ${renderTable(data.actions)}
-              </div>
-              <div class="tab-pane fade" id="analysis">
-                  ${renderTable(data.analysis)}
-              </div>
-          </div>
-      `;
-  }
+    function renderResults(data) {
+        resultsDiv.innerHTML = `
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#actions">Actions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#analysis">Analysis</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="actions">
+                    ${renderTable(data.actions)}
+                </div>
+                <div class="tab-pane fade" id="analysis">
+                    ${renderTable(data.analysis)}
+                </div>
+            </div>
+        `;
+    }
 
-function renderTable(logs) {
-    return `
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th class="system-column">
-                        System
-                        <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼</span>
-                        <span onclick="sortTable(event, 'system', true)" style="cursor: pointer;">🔽</span>
-                        <div class="filter-input-container">
-                            <input type="text" placeholder="Filter System" oninput="filterLogs(event, 'actions', 'system')" class="filter-input">
-                        </div>
-                    </th>
-                    <th class="date-column">
-                        Date
-                        <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼</span>
-                        <span onclick="sortTable(event, 'date', true)" style="cursor: pointer;">🔽</span>
-                        <div class="filter-input-container">
-                            <input type="text" placeholder="Filter Date" oninput="filterLogs(event, 'actions', 'date')" class="filter-input">
-                        </div>
-                    </th>
-                    <th>
-                        Summary
-                        <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼</span>
-                        <span onclick="sortTable(event, 'summary', true)" style="cursor: pointer;">🔽</span>
-                        <div class="filter-input-container">
-                            <input type="text" placeholder="Filter Summary" oninput="filterLogs(event, 'actions', 'summary')" class="filter-input">
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                ${logs.map((log, index) => {
-                    const rowClass = getRowClass(log.log);
-                    return `
-                    <tr class="collapse-row ${rowClass}" data-target="#detailsRow${index}" data-toggle="collapse">
-                        <td>${log.system || "Unknown"}</td>
-                        <td>${log.date || "No Date"}</td>
-                        <td>${log.summary || "No Summary"}</td>
+    function renderTable(logs) {
+        return `
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="system-column">
+                            System
+                            <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼</span>
+                            <span onclick="sortTable(event, 'system', true)" style="cursor: pointer;">🔽</span>
+                            <div class="filter-input-container">
+                                <input type="text" placeholder="Filter System" oninput="filterLogs(event, 'actions', 'system')" class="filter-input">
+                            </div>
+                        </th>
+                        <th class="date-column">
+                            Date
+                            <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼</span>
+                            <span onclick="sortTable(event, 'date', true)" style="cursor: pointer;">🔽</span>
+                            <div class="filter-input-container">
+                                <input type="text" placeholder="Filter Date" oninput="filterLogs(event, 'actions', 'date')" class="filter-input">
+                            </div>
+                        </th>
+                        <th>
+                            Summary
+                            <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼</span>
+                            <span onclick="sortTable(event, 'summary', true)" style="cursor: pointer;">🔽</span>
+                            <div class="filter-input-container">
+                                <input type="text" placeholder="Filter Summary" oninput="filterLogs(event, 'actions', 'summary')" class="filter-input">
+                            </div>
+                        </th>
                     </tr>
-                    <tr class="collapse" id="detailsRow${index}">
-                        <td colspan="3" style="padding: 0;">
-                            <table class="details-table table table-bordered">
-                                <tbody>
-                                    ${Object.entries(log.details).map(([key, value]) => `
-                                        <tr>
-                                            <th>${key}</th>
-                                            <td>${value}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>`;
-                }).join('')}
-            </tbody>
-        </table>
-    `;
-}
+                </thead>
+                <tbody id="tableBody">
+                    ${logs.map((log, index) => {
+                        const rowClass = getRowClass(log.log);
+                        return `
+                        <tr class="collapse-row ${rowClass}" data-target="#detailsRow${index}" data-toggle="collapse">
+                            <td>${log.system || "Unknown"}</td>
+                            <td>${log.date || "No Date"}</td>
+                            <td>${log.summary || "No Summary"}</td>
+                        </tr>
+                        <tr class="collapse" id="detailsRow${index}">
+                            <td colspan="3" style="padding: 0;">
+                                <table class="details-table table table-bordered">
+                                    <tbody>
+                                        ${Object.entries(log.details).map(([key, value]) => `
+                                            <tr>
+                                                <th>${key}</th>
+                                                <td>${value}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>
+        `;
+    }
 
-  window.filterLogs = (event, type) => {
-      const filterInputs = Array.from(document.querySelectorAll(`#${type} .filter-input`));
-      const tableRows = Array.from(document.querySelectorAll(`#${type} tbody tr.collapse-row`));
+    window.filterLogs = (event, type) => {
+        const filterInputs = Array.from(document.querySelectorAll(`#${type} .filter-input`));
+        const tableRows = Array.from(document.querySelectorAll(`#${type} tbody tr.collapse-row`));
 
-      // Collect input values
-      const filterValues = filterInputs.map(input => input.value.toLowerCase());
+        // Collect input values
+        const filterValues = filterInputs.map(input => input.value.toLowerCase());
 
-      tableRows.forEach(row => {
-          const rowCells = row.children;
-          const systemValue = rowCells[0].textContent.toLowerCase();
-          const dateValue = rowCells[1].textContent.toLowerCase();
-          const summaryValue = rowCells[2].textContent.toLowerCase();
+        tableRows.forEach(row => {
+            const rowCells = row.children;
+            const systemValue = rowCells[0].textContent.toLowerCase();
+            const dateValue = rowCells[1].textContent.toLowerCase();
+            const summaryValue = rowCells[2].textContent.toLowerCase();
 
-          // Check if the row should be visible based on all filter inputs
-          const isVisible = filterValues.every((filterValue, index) => {
-              if (!filterValue) return true; // No filter applied for this input
-              const cellValue = index === 0 ? systemValue : index === 1 ? dateValue : summaryValue;
-              return cellValue.includes(filterValue);
-          });
+            // Check if the row should be visible based on all filter inputs
+            const isVisible = filterValues.every((filterValue, index) => {
+                if (!filterValue) return true; // No filter applied for this input
+                const cellValue = index === 0 ? systemValue : index === 1 ? dateValue : summaryValue;
+                return cellValue.includes(filterValue);
+            });
 
-          row.style.display = isVisible ? '' : 'none';
-      });
-  };
-
+            row.style.display = isVisible ? '' : 'none';
+        });
+    };
 
     let sortOrder = {};
 
     window.sortTable = (event, column, descending = false) => {
         const tableBody = event.target.closest('table').querySelector('tbody');
-        const rows = Array.from(tableBody.rows).filter(row => row.classList.contains('collapse-row'));
+        const rows = Array.from(tableBody.querySelectorAll('tr.collapse-row'));
+
+        const pairedRows = rows.map(row => {
+            const detailRow = tableBody.querySelector(`#${row.getAttribute('data-target').substring(1)}`);
+            return { mainRow: row, detailRow };
+        });
 
         if (!sortOrder[column]) {
             sortOrder[column] = 'asc'; // Default to ascending
@@ -203,15 +205,18 @@ function renderTable(logs) {
             sortOrder[column] = 'asc';
         }
 
-        const sortedRows = rows.sort((a, b) => {
-            const aText = a.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
-            const bText = b.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
+        const sortedRows = pairedRows.sort((a, b) => {
+            const aText = a.mainRow.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
+            const bText = b.mainRow.cells[column === 'system' ? 0 : column === 'date' ? 1 : 2].textContent;
 
             return sortOrder[column] === 'asc' ? aText.localeCompare(bText) : bText.localeCompare(aText);
         });
 
         tableBody.innerHTML = '';
-        sortedRows.forEach(row => tableBody.appendChild(row));
+        sortedRows.forEach(pair => {
+            tableBody.appendChild(pair.mainRow);
+            tableBody.appendChild(pair.detailRow);
+        });
     };
 
     function getRowClass(logValue) {
@@ -223,7 +228,7 @@ function renderTable(logs) {
             case 'red':
                 return 'light-red';
             default:
-                return '';
+                return 'unknown';
         }
     }
 });
