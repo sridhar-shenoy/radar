@@ -12,44 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
 
-    const styles = `
-        <style>
-            .spinner-container {
-                display: flex;
-                align-items: center;
-                background: linear-gradient(135deg, #e0e0e0, #b0b0b0);
-                padding: 15px 20px;
-                border-radius: 15px;
-                box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
-                max-width: fit-content;
-                margin-left: 0;
-                margin-top: 20px;
-            }
-            .spinner {
-                border: 4px solid rgba(0, 0, 0, 0.1);
-                border-left-color: #007bff;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                animation: spin 1s linear infinite;
-                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
-            }
-            .loading-text {
-                margin-left: 15px;
-                color: #000080;
-                font-weight: bold;
-                font-size: 1.2rem;
-                letter-spacing: 1px;
-            }
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        </style>
-    `;
 
-    // Append the styles to the head
-    document.head.insertAdjacentHTML('beforeend', styles);
 
     searchBtn.addEventListener('click', async () => {
         const complianceId = complianceIdInput.value;
