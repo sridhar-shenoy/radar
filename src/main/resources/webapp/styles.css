@@ -162,11 +162,11 @@ body {
 }
 
 /* Table styling inside tabs */
+/* Table styling inside tabs */
 .table {
     width: 100%;
     margin-top: 20px;
-    border-collapse: separate; /* Allows rounded corners */
-    border-spacing: 0; /* No spacing */
+    border-collapse: collapse;
     border-radius: 10px; /* Rounded corners */
     overflow: hidden; /* Prevents overflow of child elements */
     background: linear-gradient(135deg, #e0e0e0, #b0b0b0); /* Metallic gradient */
@@ -180,7 +180,6 @@ body {
     padding: 8px; /* Reduced padding for a more compact feel */
     text-align: left;
     transition: background-color 0.3s ease; /* Smooth transition for hover effects */
-    border-radius: 5px; /* Rounded edges for cells */
 }
 
 .table th {
@@ -193,11 +192,44 @@ body {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
 }
 
-.table tr {
-    background: rgba(255, 255, 255, 0.1); /* Light background */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Steel-cut effect */
-    transition: background 0.3s ease; /* Smooth background transition */
+.table th:hover {
+    background-color: rgba(220, 220, 220, 0.8); /* Slightly darker grey on hover */
 }
+
+.table tr {
+    transition: background-color 0.3s ease; /* Smooth transition for row hover effects */
+    background-clip: padding-box; /* Ensure rounded corners */
+}
+
+.table tr:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background on row hover */
+}
+
+/* Specific widths for the columns */
+.date-column {
+    width: 150px; /* Compact width to accommodate date format */
+    white-space: nowrap; /* Prevents line break for date */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+}
+
+.system-column {
+    width: 80px; /* Compact width for system column */
+    white-space: nowrap; /* Prevents line break */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+}
+
+.summary-column {
+    white-space: normal; /* Allows normal wrapping */
+}
+
+/* Add steel-cut finish for table rows */
+.table tr {
+    background-color: #f8f9fa; /* Default light background */
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
 
 .table tr:hover {
     background-color: rgba(0, 123, 255, 0.1); /* Light blue background on row hover */
@@ -236,19 +268,18 @@ body {
     }
 }
 
-
-.light-green {
+.table tr.light-green {
     background-color: #d4edda; /* Light green background */
 }
 
-.light-yellow {
+.table tr.light-yellow {
     background-color: #fff3cd; /* Light yellow background */
 }
 
-.light-red {
+.table tr.light-red {
     background-color: #f8d7da; /* Light red background */
 }
 
-.unknown {
+.table tr.unknown {
     background-color: #f0f0f0; /* Grey background for unknown */
 }

@@ -65,65 +65,65 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    function renderTable(logs) {
-        return `
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="system-column">
-                            System
-                            <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼</span>
-                            <span onclick="sortTable(event, 'system', true)" style="cursor: pointer;">🔽</span>
-                            <div class="filter-input-container">
-                                <input type="text" placeholder="Filter System" oninput="filterLogs(event, 'actions', 'system')" class="filter-input">
-                            </div>
-                        </th>
-                        <th class="date-column">
-                            Date
-                            <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼</span>
-                            <span onclick="sortTable(event, 'date', true)" style="cursor: pointer;">🔽</span>
-                            <div class="filter-input-container">
-                                <input type="text" placeholder="Filter Date" oninput="filterLogs(event, 'actions', 'date')" class="filter-input">
-                            </div>
-                        </th>
-                        <th>
-                            Summary
-                            <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼</span>
-                            <span onclick="sortTable(event, 'summary', true)" style="cursor: pointer;">🔽</span>
-                            <div class="filter-input-container">
-                                <input type="text" placeholder="Filter Summary" oninput="filterLogs(event, 'actions', 'summary')" class="filter-input">
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    ${logs.map((log, index) => {
-                        const rowClass = getRowClass(log.log);
-                        return `
-                        <tr class="collapse-row ${rowClass}" data-target="#detailsRow${index}" data-toggle="collapse">
-                            <td>${log.system || "Unknown"}</td>
-                            <td>${log.date || "No Date"}</td>
-                            <td>${log.summary || "No Summary"}</td>
-                        </tr>
-                        <tr class="collapse" id="detailsRow${index}">
-                            <td colspan="3" style="padding: 0;">
-                                <table class="details-table table table-bordered">
-                                    <tbody>
-                                        ${Object.entries(log.details).map(([key, value]) => `
-                                            <tr>
-                                                <th>${key}</th>
-                                                <td>${value}</td>
-                                            </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>`;
-                    }).join('')}
-                </tbody>
-            </table>
-        `;
-    }
+  function renderTable(logs) {
+      return `
+          <table class="table table-bordered table-hover">
+              <thead>
+                  <tr>
+                      <th class="system-column">
+                          System
+                          <span onclick="sortTable(event, 'system')" style="cursor: pointer;">🔼</span>
+                          <span onclick="sortTable(event, 'system', true)" style="cursor: pointer;">🔽</span>
+                          <div class="filter-input-container">
+                              <input type="text" placeholder="Filter System" oninput="filterLogs(event, 'actions', 'system')" class="filter-input">
+                          </div>
+                      </th>
+                      <th class="date-column">
+                          Date
+                          <span onclick="sortTable(event, 'date')" style="cursor: pointer;">🔼</span>
+                          <span onclick="sortTable(event, 'date', true)" style="cursor: pointer;">🔽</span>
+                          <div class="filter-input-container">
+                              <input type="text" placeholder="Filter Date" oninput="filterLogs(event, 'actions', 'date')" class="filter-input">
+                          </div>
+                      </th>
+                      <th class="summary-column">
+                          Summary
+                          <span onclick="sortTable(event, 'summary')" style="cursor: pointer;">🔼</span>
+                          <span onclick="sortTable(event, 'summary', true)" style="cursor: pointer;">🔽</span>
+                          <div class="filter-input-container">
+                              <input type="text" placeholder="Filter Summary" oninput="filterLogs(event, 'actions', 'summary')" class="filter-input">
+                          </div>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody id="tableBody">
+                  ${logs.map((log, index) => {
+                      const rowClass = getRowClass(log.log);
+                      return `
+                      <tr class="collapse-row ${rowClass}" data-target="#detailsRow${index}" data-toggle="collapse">
+                          <td>${log.system || "Unknown"}</td>
+                          <td>${log.date || "No Date"}</td>
+                          <td>${log.summary || "No Summary"}</td>
+                      </tr>
+                      <tr class="collapse" id="detailsRow${index}">
+                          <td colspan="3" style="padding: 0;">
+                              <table class="details-table table table-bordered">
+                                  <tbody>
+                                      ${Object.entries(log.details).map(([key, value]) => `
+                                          <tr>
+                                              <th>${key}</th>
+                                              <td>${value}</td>
+                                          </tr>
+                                      `).join('')}
+                                  </tbody>
+                              </table>
+                          </td>
+                      </tr>`;
+                  }).join('')}
+              </tbody>
+          </table>
+      `;
+  }
 
     window.filterLogs = (event, type) => {
         const filterInputs = Array.from(document.querySelectorAll(`#${type} .filter-input`));
